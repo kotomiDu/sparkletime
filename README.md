@@ -1,15 +1,13 @@
 # SparkleTime
 
 ## Introudction
-* SparkleTime will record highlight moment with an input video. Details are WIP.
-
+* SparkleTime can record highlight moment with a streaming video. This usage is based on [OpennVINO](https://software.intel.com/en-us/openvino-toolkit) tech support. Details are WIP.
 
 ![sparkletime solution](doc/pics/sparkletime_solution.jpg)
 
 * Current version supports for highlighting three games ( PUBG, LOL and World of Tank)
  
 * Before run the app, please go to this [link](https://drive.google.com/open?id=1LWjAbX-83Yz_i9x4uMeVzRbcF5uqP6fk) and find video sources. If you cannot access the folder, please feel free to email yaru.du@intel.com
- 
 
  | video name | path |  
  | -- | -- |
@@ -24,6 +22,7 @@
  | PUBG.mp4 | .\PUBG\game_highlights_demo.mp4 |
  | LOL.mp4 | .\LOL\2019-11-19-10-22-10-sparkletime.avi |
  | World of Tank | .\World_of_Tank\2019-11-13-15-06-16-sparkletime-WoT.avi |
+
  
 ## Enviroment
 * python3.6
@@ -51,7 +50,7 @@ python game_highlight.py -i testinput/test_lol.mp4 -o output -g LOL
 python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 ```
 
-## Model info 
+## Info @ OpenVINO model
 
 | Model type | Model framework |  Model size | OpenVINO supported
  | -- | -- | -- | -- |
