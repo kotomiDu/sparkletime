@@ -8,7 +8,7 @@
 
 * Current version supports for highlighting three games ( PUBG, LOL and World of Tank)
  
-* Before run the app, please go to this [link](https://drive.google.com/open?id=1LWjAbX-83Yz_i9x4uMeVzRbcF5uqP6fk) and find video sources. If you cannot access the folder, please feel free to ping @ Du, Yaru
+* Before run the app, please go to this [link](https://drive.google.com/open?id=1LWjAbX-83Yz_i9x4uMeVzRbcF5uqP6fk) and find video sources. If you cannot access the folder, please feel free to email yaru.du@intel.com
  
 
  | video name | path |  
