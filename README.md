@@ -52,3 +52,5 @@ python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 ```
 
 ## Performance
+
+![performance](doc/pics/performance.jpg)
