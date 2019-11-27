@@ -51,6 +51,13 @@ python game_highlight.py -i testinput/test_lol.mp4 -o output -g LOL
 python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 ```
 
-## Performance
+## Model info 
+
+| Model type | Model framework |  Model size | OpenVINO supported
+ | -- | -- | -- | -- |
+ | Text detection | Pixel_link + MobileNet v2 | 25.7MB | FP32/FP16/INT8 @CPU, FP32/FP16@GPU|
+ | Text recognition | LSTM+CTC Loss | 45.3MB |FP32/FP16@CPU, FP32/FP16@GPU |
+ 
+## Performance @ OpenVINO model
 
 ![performance](doc/pics/performance.jpg)
