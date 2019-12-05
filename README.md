@@ -60,3 +60,5 @@ python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 ## Performance @ OpenVINO model
 
 ![performance](doc/pics/performance.jpg)
+
+![amd_performance](doc/pics/amd_performance.jpg)
