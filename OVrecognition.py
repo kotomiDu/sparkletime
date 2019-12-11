@@ -65,7 +65,7 @@ class OVrecognition:
 		t1 = time.time()
 		self.exec_net = self.ie.load_network(network=self.net, device_name=self.device)
 		t2 = time.time()
-		print("cost", t2-t1)
+		print("load network cost", t2-t1)
 		
 	def infer(self, inputdata):
 		
