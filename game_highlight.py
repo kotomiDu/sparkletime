@@ -59,7 +59,7 @@ print("[INFO] loading video...")
 cap = cv2.VideoCapture(args["input"])
 frames_num = cap.get(7)
 stop_frame = int(frames_num - frames_num%args["detectFrames"])
-print(frames_num,stop_frame)
+print("stop frame:", frames_num, stop_frame)
 
 print("load model")
 detect_model = OVdetection(args["md"],args["device"],args["cpu_extension"],args["config"],ROI)
