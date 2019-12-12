@@ -48,6 +48,7 @@ ap.add_argument("-df", "--detectFrames", type=int, default=15,
 args = vars(ap.parse_args())
 
 do_detect_flag = True
+#ROI [y, offset_y, x, offset_x]
 if args["gameName"] == 'PUBG':
 	ROI = [712,96,720,512]
 if args["gameName"] == 'LOL':
