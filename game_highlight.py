@@ -199,6 +199,7 @@ def model_inference(kcw,Q):
 					elif mid_point <= 63 and mid_point >= 44:
 						idx = 2
 						box = [min_X, 44, max_X, 44 , max_X, 63, min_X, 63]
+					bboxes[0][i] = box
 					recog_start = time.time()
 					newim = affine(cur_frame,box,None,i,120,32)
 					text = recogh_model.infer([newim])
@@ -224,10 +225,12 @@ def model_inference(kcw,Q):
 							print("Assist: ", WoT_log[2])
 					except:
 						break
-					line = 'frame' + str(frame_idx) + ' ' + str(WoT_log[0]) + ' ' + str(WoT_log[1]) + ' ' + str(WoT_log[2]) + str(bboxes[0]) + '\n'
-					log.write(line)
-					updateConsecFrames = not detect_flag
-					frozen_detect = detect_flag
+			# save log
+			if args["gameName"] == 'WoT':			
+				line = 'frame' + str(frame_idx) + ' ' + str(WoT_log[0]) + ' ' + str(WoT_log[1]) + ' ' + str(WoT_log[2]) + str(bboxes[0]) + '\n'
+				log.write(line)
+			updateConsecFrames = not detect_flag
+			frozen_detect = detect_flag
 			# only proceed if at least one contour was found
 			if detect_flag:
 				# cv2.imwrite("output/" + str(frame_idx) + ".png",crop_area[:, :, ::-1])
@@ -282,12 +285,12 @@ while True:
 		break
 
 	TQ.put(frame)
-	cv2.imshow(args["gameName"], frame)
-	key = cv2.waitKey(5) & 0xFF
+	# cv2.imshow(args["gameName"], frame)
+	# key = cv2.waitKey(5) & 0xFF
 
-	#if the `q` key was pressed, break from the loop
-	if key == ord("q"):
-		break
+	# #if the `q` key was pressed, break from the loop
+	# if key == ord("q"):
+	# 	break
 # for key_frame in all_kill:
 # 	print(key_frame)
 # 	cap.set(cv2.CAP_PROP_POS_FRAMES,key_frame)
