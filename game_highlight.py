@@ -55,14 +55,17 @@ if args["gameName"] == 'LOL':
 	ROI = [0,32,1665,96]
 if args["gameName"] == 'WoT':
 	ROI = [852,64,252,32]
+	args["config"] = "config/detection_WoT.yml"
+
 
 print("[INFO] loading video...")
 cap = cv2.VideoCapture(args["input"])
 frames_num = cap.get(7)
 stop_frame = int(frames_num - frames_num%args["detectFrames"])
 print("stop frame:", frames_num, stop_frame)
-
 print("load model")
+print(args["config"])
+
 detect_model = OVdetection(args["md"],args["device"],args["cpu_extension"],args["config"],ROI)
 detect_model.load_model()
 recogh_model = OVrecognition(args["mrh"],args["device"],args["cpu_extension"])
@@ -85,20 +88,13 @@ def model_inference(kcw,Q):
 	frozen_frame = 0
 	frozen_detect = False
 	killNum = 0
-	rec_kill = 0
 	assNum = 0
 	WoT_log = [0,0,0]
-	WoT_damage = 0
-	WoT_block = 0
-	WoT_assist = 0
-	# kill_list = []
-	# global all_kill
-	# ass_list = []
+
 	while True:
 		if frame_idx == stop_frame:
 			break
 		if not Q.empty():
-			#frame_idx += 1
 			updateConsecFrames = True
 			if args["gameName"] == 'PUBG':
 				for i in range(args["detectFrames"]):
@@ -110,6 +106,7 @@ def model_inference(kcw,Q):
 					kcw.update(temp)
 				if frozen_detect and frozen_frame < 9*args["detectFrames"]:
 					continue
+				
 			if args["gameName"] == 'LOL' or args["gameName"] == 'WoT':
 				for i in range(args["detectFrames"]):
 					temp = Q.get()
@@ -118,74 +115,120 @@ def model_inference(kcw,Q):
 
 			#cur_frame = temp.copy()
 			#cur_frame = temp[712:712+96, 720:720+512].copy()
-			#print(frame_idx)
-			cur_frame = temp[ROI[0]:ROI[0]+ROI[1], ROI[2]:ROI[2]+ROI[3]].copy()
-			#cv2.imwrite(str(frame_idx) + '.jpg', cur_frame)
+			print(frame_idx)
+			cur_frame1 = temp[ROI[0]:ROI[0]+ROI[1], ROI[2]:ROI[2]+ROI[3]].copy()
+			#cv2.imwrite(str(frame_idx) + '.jpg', cur_frame1)
 			detect_flag = False
 			start = time.time()
 			inference_idx += 1
-			bboxes = detect_model.infer([cur_frame])
+			bboxes = detect_model.infer([cur_frame1])
 			end = time.time()
 			detection_time += end - start
-			predicted = []
-			cur_frame = cv2.cvtColor(cur_frame, cv2.COLOR_BGR2GRAY)
+			cur_frame = cv2.cvtColor(cur_frame1, cv2.COLOR_BGR2GRAY)
+
 			for i , box in enumerate(bboxes[0]):
-				recog_start = time.time()
-				newim = affine(cur_frame,box,None,i,120,32)
-				text = recogh_model.infer([newim])
-				recog_end = time.time()
-				recogntion_time += recog_end - recog_start
-				#print("recog:{}s".format(recogntion))
-				predicted.append(text)
-				if args["gameName"] == 'PUBG':
-					if text == "killed" or text == "kill":
-						print(text)
-						detect_flag = True
-						break
-				if args["gameName"] == 'LOL':
-					if len(text) == 5 and int(text[0]) != rec_kill:
-						killNum += 1
-						rec_kill = int(text[0])
-						print(killNum, 'Kill')
-						detect_flag = True
-						# kill_list.append(frame_idx)
-						# new_kill = {f for f in range(frame_idx - 180, frame_idx + 180)}
-						# all_kill = all_kill | new_kill
-						cv2.imwrite(str(killNum) + '.jpg', temp)
-						break
-					if len(text) > 5 and int(text[0]) > 0 and int(text[:2]) != rec_kill:
-						killNum += 1
-						rec_kill = int(text[:2])
-						print(killNum, 'Kill')
-						detect_flag = True
-						# kill_list.append(frame_idx)
-						# new_kill = {f for f in range(frame_idx-180, frame_idx+180)}
-						# all_kill = all_kill | new_kill
-						cv2.imwrite(str(killNum) + '.jpg', temp)
-						break
-					if int(text[-1]) > assNum and assNum < 9:
-						assNum += 1
-						print(assNum, 'Assist')
-						detect_flag = True
-						# ass_list.append(frame_idx)
-						break
-					if int(text[-2:]) > assNum and assNum >= 10:
-						assNum += 1
-						print(assNum, 'Assist')
-						detect_flag = True
-						# ass_list.append(frame_idx)
-						break
+				if args["gameName"] == 'PUBG' or args["gameName"] == 'LOL':
+					recog_start = time.time()
+					newim = affine(cur_frame,box,None,i,120,32)
+					text = recogh_model.infer([newim])
+					recog_end = time.time()
+					recogntion_time += recog_end - recog_start
+					#print("recog:{}s".format(recogntion))
+					if args["gameName"] == 'PUBG':
+						if text == "killed" or text == "kill":
+							print(text)
+							detect_flag = True
+							line = 'frame' + str(frame_idx) + ' ' + str(text) + ' ' + str(bboxes[0]) + '\n'
+							log.write(line)
+							break
+					if args["gameName"] == 'LOL':
+						if int(text[0]) == killNum + 1 and killNum < 9:
+							killNum += 1
+							print(killNum, 'Kill')
+							detect_flag = True
+							break
+
+						if killNum == 9 and int(text[:2]) == 10:
+							killNum = 10
+							print(killNum, 'Kill')
+							detect_flag = True
+							cv2.imwrite(str(killNum) + '.jpg', temp)
+							break
+
+						if int(text[:2]) == killNum + 1 and killNum >= 10:
+							killNum += 1
+							print(killNum, 'Kill')
+							detect_flag = True
+							break
+
+						if int(text[-1]) == assNum + 1 and assNum < 9:
+							assNum += 1
+							print(assNum, 'Assist')
+							detect_flag = True
+							break
+
+						if assNum == 9 and int(text[-2:]) == 10:
+							assNum = 10
+							print(assNum, 'Assist')
+							detect_flag = True
+							break
+
+						if int(text[-2:]) == assNum + 1 and assNum >= 10:
+							assNum += 1
+							print(assNum, 'Assist')
+							detect_flag = True
+							break
+					# save LOL_log
+					if args["gameName"] == 'LOL':
+						line = 'frame' + str(frame_idx) + ' ' + str(killNum) + ' ' + str(assNum) + ' ' + str(bboxes[0]) + '\n'
+						log.write(line)
 				if args["gameName"] == 'WoT':
+					max_X = max(box[0], box[2], box[4], box[6])
+					min_X = min(box[0], box[2], box[4], box[6])
+					max_Y = max(box[1], box[3], box[5], box[7])
+					min_Y = min(box[1], box[3], box[5], box[7])
+					mid_point = (max_Y +min_Y)/2
+					min_X = 0
+
+					if mid_point <= 19 and mid_point >= 4:
+						idx = 0
+						box = [max_X, 19, min_X, 19, min_X, 4, max_X, 4]
+					elif mid_point <= 43 and mid_point >= 24:
+						idx = 1
+						box = [min_X, 24, max_X, 24 , max_X, 43, min_X, 43]
+					elif mid_point <= 63 and mid_point >= 44:
+						idx = 2
+						box = [min_X, 44, max_X, 44 , max_X, 63, min_X, 63]
+					bboxes[0][i] = box
+					recog_start = time.time()
+					newim = affine(cur_frame,box,None,i,120,32)
+					text = recogh_model.infer([newim])
+					recog_end = time.time()
+					recogntion_time += recog_end - recog_start
+
+					''' test draw boxes
+					pts = np.array([[box[0],box[1]],[box[2],box[3]],[box[4],box[5]],[box[6],box[7]]], np.int32)
+					pts = pts.reshape((-1,1,2))
+					cur_frame2 = cur_frame1.copy()
+					im = cv2.polylines(cur_frame2,[pts],True,(0,255,255), 1)
+					cv2.imwrite('pic/' + str(frame_idx) + '_'+str(i)+ '.jpg', im)
+					'''
 					text =  text.replace('z', '2')
-					if int(text) !=  WoT_log[i]:
-						WoT_log[i] = int(text)
-						detect_flag = True
-						print("Damage: ", WoT_log[0])
-						print("Block: ", WoT_log[1])
-						print("Assist: ", WoT_log[2])
-			#print(kills)
-			line = 'frame' + str(frame_idx) + ' ' + str(WoT_log[0]) + ' ' + str(WoT_log[1]) + ' ' + str(WoT_log[2]) + '\n'
-			log.write(line)
+					text =  text.replace('o', '0')
+					text =  text.replace('d', '0')
+					try:
+						if int(text) != WoT_log[idx]:
+							WoT_log[idx] = int(text)
+							detect_flag = True
+							print("Damage: ", WoT_log[0])
+							print("Block: ", WoT_log[1])
+							print("Assist: ", WoT_log[2])
+					except:
+						break
+			# save log
+			if args["gameName"] == 'WoT':			
+				line = 'frame' + str(frame_idx) + ' ' + str(WoT_log[0]) + ' ' + str(WoT_log[1]) + ' ' + str(WoT_log[2]) + str(bboxes[0]) + '\n'
+				log.write(line)
 			updateConsecFrames = not detect_flag
 			frozen_detect = detect_flag
 			# only proceed if at least one contour was found
@@ -242,12 +285,12 @@ while True:
 		break
 
 	TQ.put(frame)
-	cv2.imshow(args["gameName"], frame)
-	key = cv2.waitKey(5) & 0xFF
+	# cv2.imshow(args["gameName"], frame)
+	# key = cv2.waitKey(5) & 0xFF
 
-	#if the `q` key was pressed, break from the loop
-	if key == ord("q"):
-		break
+	# #if the `q` key was pressed, break from the loop
+	# if key == ord("q"):
+	# 	break
 # for key_frame in all_kill:
 # 	print(key_frame)
 # 	cap.set(cv2.CAP_PROP_POS_FRAMES,key_frame)
