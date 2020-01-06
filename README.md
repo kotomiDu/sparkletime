@@ -66,4 +66,5 @@ python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 ![amd_performance](doc/pics/amd_performance.jpg)
 
 ## little trick
+* test on one instance 
 The performance of FP32 model on intel cpu is better than on AMD cpu benefits from the hardware, not from OpenVINO.
