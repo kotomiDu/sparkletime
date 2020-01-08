@@ -67,7 +67,14 @@ python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 
 ## Little trick
 * test on one instance 
-```
+	|  |AMD3700U|ICELAKE|
+ | -- | -- | -- |
+text detection tf|	3161.35	|1541.52
+|text recognition tf |	5286.16	|3002.85|
+|muscidance tf	|594.9	|238.61|
+|musicdance OV FP32|	216.03|	68.54|
+
+
 The performance of FP32 model on intel cpu is better than on AMD cpu benefits from the hardware, not from OpenVINO. Becuase if tensorflow model is tested on both HW, it also has the same gap.
-```
+
 
