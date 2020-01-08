@@ -67,7 +67,8 @@ python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 
 ## Little trick
 * test on one instance 
-	|  |AMD3700U|ICELAKE|
+
+|  |AMD3700U|ICELAKE|
  | -- | -- | -- |
 text detection tf|	3161.35	|1541.52
 |text recognition tf |	5286.16	|3002.85|
