@@ -25,8 +25,8 @@
 
  
 ## Enviroment
-* python3.6
-* openvino R3
+* python3.6 **use anaconda to manage python environment is strongly recommended**
+* openvino R3 **need to run setupvars.bat after installation**
   please refer to [OpenVINO@intel windows installation](https://docs.openvinotoolkit.org/latest/_docs_install_guides_installing_openvino_windows.html) 
 * pip install opencv-python
 
