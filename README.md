@@ -33,8 +33,9 @@
 
 ### if you manage enviroment with Anaconda, here is some installation reference.
  <img src="./doc/pics/step1.png" width = "400" height = "200" alt="open command" align=left />
- <img src="./doc/pics/step2.png" width = "400" height = "200" alt="set environment" align=right />
-
+ <img src="./doc/pics/step2.png" width = "400" height = "200" alt="set environment"  />
+ 
+ 
 ## Run app
 
 
