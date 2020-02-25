@@ -32,8 +32,8 @@
 * pip install opencv-python
 
 ### if you manage enviroment with Anaconda, here is some installation reference.
-![open command](doc/pics/step1.jpg)
-![set environment](doc/pics/step2.jpg)
+![open command](doc/pics/step1.png)
+![set environment](doc/pics/step2.png)
 
 
 ## Run app
