@@ -23,7 +23,7 @@ ap.add_argument("-mrh", "--mrh", help="Required. Path to an .xml file with a tra
 
 ap.add_argument("-l", "--cpu_extension",
 					help="Optional. Required for CPU custom layers. Absolute path to a shared library with the "
-						"kernels implementations.", type=str, default="./cpu_extension_avx2.dll")
+						"kernels implementations.", type=str, default="")
 
 ap.add_argument("-d", "--device",
 					help="Optional. Specify the target device to infer on; CPU, GPU, FPGA, HDDL or MYRIAD is "
