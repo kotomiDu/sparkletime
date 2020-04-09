@@ -20,8 +20,8 @@
 | Game name | path |  
  | -- | -- |
  | PUBG.mp4 | .\PUBG\game_highlights_demo.mp4 |
- | LOL.mp4 | .\LOL\2019-11-19-10-22-10-sparkletime.avi |
- | World of Tank | .\World_of_Tank\2019-11-13-15-06-16-sparkletime-WoT.avi |
+ | LOL.mp4 | .\LOL\sparkletime_lol.mp4|
+ | World of Tank | .\World_of_Tank\sparkletime_wot.mp4 |
 
  
 ## Enviroment
