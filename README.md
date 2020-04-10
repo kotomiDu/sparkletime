@@ -7,22 +7,13 @@
 
 * Current version supports for highlighting three games ( PUBG, LOL and World of Tank)
  
-* Before run the app, please go to this [link](https://drive.google.com/open?id=1LWjAbX-83Yz_i9x4uMeVzRbcF5uqP6fk) and find video sources. If you cannot access the folder, please feel free to email yaru.du@intel.com
+* Before run the app, please go to this [link](https://drive.google.com/open?id=1LWjAbX-83Yz_i9x4uMeVzRbcF5uqP6fk) and find **source video**. You can also check the **sparkleTime video** colletected from the video source If you cannot access the folder, please feel free to email yaru.du@intel.com
 
- | video name | path |  
+ | **Game name** | **source video** |  **sparktletime video** |
  | -- | -- |
- | test_PUBG.mp4 | .\PUBG\test_PUBG.mp4 |
- | test_lol.mp4 | .\LOL\test_lol.mp4 |
- | test_WoT_1.mp4 | .\World_of_Tank\test_WoT_1.mp4 |
-
-* You can also check the sparkleTime video we colletected
-
-| Game name | path |  
- | -- | -- |
- | PUBG.mp4 | .\PUBG\game_highlights_demo.mp4 |
- | LOL.mp4 | .\LOL\sparkletime_lol.mp4|
- | World of Tank | .\World_of_Tank\sparkletime_wot.mp4 |
-
+ | PUBG|  .\PUBG\test_PUBG.mp4 |.\PUBG\game_highlights_demo.mp4 |
+ | LOL  |.\LOL\test_lol.mp4 | .\LOL\sparkletime_lol.mp4|
+ | World of Tank |.\World_of_Tank\test_WoT_1.mp4 |.\World_of_Tank\sparkletime_wot.mp4 |
  
 ## Enviroment
 * python3 
@@ -54,6 +45,8 @@ python game_highlight.py -i testinput/test_lol.mp4 -o output -g LOL
 ```
 python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 ```
+
+**The sparkletime video will be saved in the `output` folder**
 
 ## Info @ OpenVINO model
 
