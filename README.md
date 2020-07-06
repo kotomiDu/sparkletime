@@ -61,7 +61,7 @@ python game_highlight.py -i testinput/test_WoT_1.mp4 -o output -g WoT
 
 ![performance](doc/pics/performance.jpg)
 
-![amd_performance](doc/pics/amd_performance.jpg)
+
 
 ## Little trick
 * test on one instance 
