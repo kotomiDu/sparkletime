@@ -1,5 +1,10 @@
 # SparkleTime
 
+## Materials for the project detail
+* project slides https://t.csdnimg.cn/hSSe
+
+* project video https://edu.csdn.net/huiyiCourse/detail/1202
+
 ## Introudction
 * SparkleTime can record highlight moment with a streaming video. This usage is based on [OpennVINO](https://software.intel.com/en-us/openvino-toolkit) tech support. Details are WIP.
 
